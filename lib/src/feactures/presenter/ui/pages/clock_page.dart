@@ -1,14 +1,14 @@
 import 'package:despertador/src/feactures/presenter/ui/moleculs/clock_view.dart';
 import 'package:flutter/material.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class ClockPage extends StatefulWidget {
+  const ClockPage({super.key});
 
   @override
-  _HomePageState createState() => _HomePageState();
+  State<ClockPage> createState() => _ClockPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _ClockPageState extends State<ClockPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
               const Text('Seg, 29 de maio de 2023'),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               const Center(
                 child: ClockView(),
               ),

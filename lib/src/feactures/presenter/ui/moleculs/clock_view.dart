@@ -7,7 +7,7 @@ class ClockView extends StatefulWidget {
   const ClockView({super.key});
 
   @override
-  _ClockViewState createState() => _ClockViewState();
+  State<ClockView> createState() => _ClockViewState();
 }
 
 class _ClockViewState extends State<ClockView> {
@@ -21,7 +21,7 @@ class _ClockViewState extends State<ClockView> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 200,
       height: 200,
       child: Transform.rotate(

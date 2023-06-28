@@ -1,13 +1,15 @@
 class AlarmEntity {
-  String id;
+  String? id;
   final String title;
-  final String active;
-  final List<DateTime> dateTime;
+  final bool active;
+  final int dateTime;
+  final int createAt;
 
   AlarmEntity({
-    required this.id,
+    this.id,
     required this.title,
     required this.active,
     required this.dateTime,
+    required this.createAt
   });
 }

@@ -22,12 +22,12 @@ class _ClockViewState extends State<ClockView> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 200,
-      height: 200,
+      width: 250,
+      height: 250,
       child: Transform.rotate(
         angle: -pi / 2,
         child: CustomPaint(
-          painter: ClockPainter(),
+          painter: ClockPainter(dateTime: DateTime.now()),
         ),
       ),
     );

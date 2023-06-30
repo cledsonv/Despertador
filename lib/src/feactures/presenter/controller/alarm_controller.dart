@@ -29,32 +29,58 @@ class AlarmController extends ChangeNotifier {
   List<AlarmEntity> listAlarm = [];
 
   void list() async {
-    listAlarm = await _listAlarmUsecase.list();
-    listAlarm.sort((a, b) => a.createAt.compareTo(b.createAt));
-    notifyListeners();
+    try {
+      listAlarm = await _listAlarmUsecase.list();
+      listAlarm.sort((a, b) => a.createAt.compareTo(b.createAt));
+      notifyListeners();
+    } catch (e) {
+      print(e);
+    }
   }
 
   void create() async {
-    await _createAlarmUsecase.create(
-      data: AlarmEntity(
-        title: '',
-        active: true,
-        dateTime: DateTime.now().millisecondsSinceEpoch,
-        createAt: DateTime.now().millisecondsSinceEpoch,
-      ),
-    );
-    list();
-    notifyListeners();
+    try {
+      await _createAlarmUsecase.create(
+        data: AlarmEntity(
+          title: '',
+          active: true,
+          dateTime: DateTime.now().millisecondsSinceEpoch,
+          createAt: DateTime.now().millisecondsSinceEpoch,
+          updateAt: DateTime.now().millisecondsSinceEpoch,
+        ),
+      );
+      list();
+      notifyListeners();
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void update({
+    required String id,
+    required String title,
+    required bool active,
+    required int dateTime,
+    required int createAt,
+  }) {
+    _updateAlarmUsecase.update(
+        data: AlarmEntity(
+          title: title,
+          active: active,
+          dateTime: dateTime,
+          createAt: createAt,
+          updateAt: DateTime.now().millisecondsSinceEpoch,
+        ),
+        id: id);
   }
 
   void delete(String id) async {
     try {
-      
+      await _deleteAlarmUsecase.delete(id: id);
+      list();
     } catch (e) {
-      
+      print(e);
     }
-    await _deleteAlarmUsecase.delete(id: id);
-    list();
     notifyListeners();
   }
 }

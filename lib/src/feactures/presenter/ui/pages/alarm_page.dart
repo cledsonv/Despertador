@@ -3,9 +3,7 @@ import 'package:despertador/src/core/widget/alarm_text.dart';
 import 'package:despertador/src/feactures/presenter/controller/alarm_controller.dart';
 import 'package:despertador/src/feactures/presenter/ui/moleculs/container_alarm.dart';
 import 'package:despertador/src/feactures/presenter/ui/pages/config_alarm_page.dart';
-import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:neumorphic_ui/neumorphic_ui.dart';
 import 'dart:math' as math;
@@ -85,10 +83,12 @@ class _AlarmPageState extends State<AlarmPage> {
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const ConfigAlarmPage(),
+                      builder: (context) =>
+                          ConfigAlarmPage(dayWeek: ct.listWeek),
                     ),
                   ),
                   child: ContainerAlarm(
+                    dayWeek: ct.listWeek,
                     onRemove: () {
                       setState(
                         () {

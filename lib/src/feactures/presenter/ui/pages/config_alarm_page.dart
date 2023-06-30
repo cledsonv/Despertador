@@ -1,64 +1,55 @@
-import 'dart:math';
-
+import 'package:despertador/src/core/widget/alarm_text.dart';
 import 'package:despertador/src/feactures/presenter/ui/atomic/container_day_week.dart';
-import 'package:despertador/src/feactures/presenter/ui/moleculs/clock_painter.dart';
+import 'package:despertador/src/feactures/presenter/ui/moleculs/clock_view.dart';
 import 'package:flutter/material.dart';
 
 class ConfigAlarmPage extends StatelessWidget {
-  const ConfigAlarmPage({super.key});
+  final List<String> dayWeek;
+  //final void Function() onSelectWeek;
+  const ConfigAlarmPage({super.key, required this.dayWeek});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xffEAD7D7),
       appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           children: [
-            Row(
-              children: [
-                SizedBox(
-                  width: 175,
-                  height: 175,
-                  child: Transform.rotate(
-                    angle: -pi / 2,
-                    child: CustomPaint(
-                      painter: ClockPainter(dateTime: DateTime.now()),
+            const SizedBox(height: 20),
+            const Center(child: ClockView()),
+            const SizedBox(height: 20),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.8,
+              height: 50,
+              child: ListView.builder(
+                itemCount: dayWeek.length,
+                scrollDirection: Axis.horizontal,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, idx) => InkWell(
+                  onTap: () {},
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 5),
+                    child: Center(
+                      child: ContainerDayWeek(
+                        isSelect: false,
+                        text: dayWeek[idx].substring(0, 1),
+                      ),
                     ),
                   ),
                 ),
-              ],
-            ),
-
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: 250,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 7,
-                itemBuilder: (context, index) => ContainerDayWeek(),
               ),
             ),
-           Neumorphic
+            const SizedBox(height: 20),
+            const Center(
+              child: AlarmText(
+                  text: 'Próximo alarme programado\npara daqui a 4 horas.',
+                  textAlign: TextAlign.center),
+            )
           ],
         ),
       ),
     );
   }
 }
-// GestureDetector(
-//             onTap: () async {
-//               TimeOfDay? newTime = await showTimePicker(
-//                 context: context,
-//                 initialTime: time,
-//               );
-//               if (newTime == null) return;
-//               setState(() {
-//                 time = newTime;
-//               });
-//             },
-//             child: Text(
-//               '$hours:$minutes',
-//               style: Theme.of(context).textTheme.headlineLarge,
-//             ),
-//           ),

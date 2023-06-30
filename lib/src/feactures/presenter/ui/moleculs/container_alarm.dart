@@ -1,10 +1,13 @@
 import 'package:despertador/src/core/widget/alarm_text.dart';
-import 'package:despertador/src/feactures/presenter/ui/atomic/container_day_week.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:neumorphic_ui/neumorphic_ui.dart';
 
 class ContainerAlarm extends StatefulWidget {
+  final List<String> dayWeek;
   final void Function() onRemove;
-  const ContainerAlarm({super.key, required this.onRemove});
+
+  const ContainerAlarm(
+      {super.key, required this.onRemove, required this.dayWeek});
 
   @override
   State<ContainerAlarm> createState() => _ContainerAlarmState();
@@ -16,6 +19,8 @@ class _ContainerAlarmState extends State<ContainerAlarm> {
   bool switchValue = false;
   @override
   Widget build(BuildContext context) {
+    final hours = time.hour.toString().padLeft(2, '0');
+    final minutes = time.minute.toString().padLeft(2, '0');
     return Neumorphic(
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 16),
@@ -27,7 +32,6 @@ class _ContainerAlarmState extends State<ContainerAlarm> {
         intensity: 0.9,
         surfaceIntensity: 0,
         depth: 3,
-        shadowLightColor: Colors.white,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -65,9 +69,37 @@ class _ContainerAlarmState extends State<ContainerAlarm> {
               )
             ],
           ),
-          const AlarmText(
-            text: '18:00',
-            typography: AlarmTypography.hour,
+          GestureDetector(
+            onTap: () async {
+              TimeOfDay? newTime = await showTimePicker(
+                helpText: 'Selecionar a hora',
+                context: context,
+                initialTime: time,
+              );
+              if (newTime == null) return;
+              setState(() {
+                time = newTime;
+              });
+            },
+            child: AlarmText(
+              text: '$hours:$minutes',
+              typography: AlarmTypography.hour,
+            ),
+          ),
+          SizedBox(
+            height: 30,
+            child: ListView.builder(
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: widget.dayWeek.length,
+              itemBuilder: (context, idx) => Padding(
+                padding: const EdgeInsets.only(right: 5),
+                child: AlarmText(
+                  text: widget.dayWeek[idx].substring(0, 3),
+                ),
+              ),
+            ),
           ),
           GestureDetector(
             onTap: widget.onRemove,
@@ -79,6 +111,7 @@ class _ContainerAlarmState extends State<ContainerAlarm> {
               ],
             ),
           ),
+          
         ],
       ),
     );

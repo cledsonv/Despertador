@@ -27,6 +27,15 @@ class AlarmController extends ChangeNotifier {
   }
 
   List<AlarmEntity> listAlarm = [];
+  List<String> listWeek = [
+    'Domingo',
+    'Segunda',
+    'Terça',
+    'Quarta',
+    'Quinta',
+    'Sexta',
+    'Sábado',
+  ];
 
   void list() async {
     try {

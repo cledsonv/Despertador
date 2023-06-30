@@ -1,36 +1,42 @@
+import 'package:despertador/src/core/widget/alarm_text.dart';
 import 'package:flutter/material.dart';
+import 'package:neumorphic_ui/neumorphic_ui.dart';
 
 class ContainerDayWeek extends StatelessWidget {
-  const ContainerDayWeek({super.key});
+  final bool isSelect;
+  final String text;
+  const ContainerDayWeek(
+      {super.key, required this.isSelect, required this.text});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 100,
-      height: 100,
-      margin: const EdgeInsets.only(right: 10),
-      decoration: BoxDecoration(
-        color: Colors.grey[200],
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: const [
-          BoxShadow(
-            color: Color.fromARGB(255, 224, 224, 224),
-            offset: Offset(4, 4),
-            blurRadius: 8,
-          ),
-          BoxShadow(
-            color: Colors.white,
-            offset: Offset(-4, -4),
-            blurRadius: 8,
-          ),
-        ],
-      ),
-      child: const Center(
-        child: Text(
-          'Container Neumorphic',
-          style: TextStyle(fontSize: 20),
-        ),
-      ),
-    );
+    return isSelect
+        ? Neumorphic(
+            style: NeumorphicStyle(
+              color: const Color(0xffEAD7D7),
+              boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(10)),
+              intensity: 0.9,
+              depth: 3,
+            ),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+            child: AlarmText(
+              text: text,
+              typography: AlarmTypography.body,
+            ),
+          )
+        : Neumorphic(
+            style: NeumorphicStyle(
+              color: Color.fromARGB(136, 65, 34, 52),
+              boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(10)),
+              intensity: 0.9,
+              depth: -3,
+            ),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+            child: AlarmText(
+              text: text,
+              typography: AlarmTypography.body,
+              color: Colors.white,
+            ),
+          );
   }
 }

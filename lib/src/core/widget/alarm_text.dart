@@ -17,6 +17,7 @@ class AlarmText extends StatelessWidget {
   final Color? color;
   final int? maxLines;
   final TextOverflow? overflow;
+  final TextAlign? textAlign;
   const AlarmText({
     super.key,
     required this.text,
@@ -24,6 +25,7 @@ class AlarmText extends StatelessWidget {
     this.color,
     this.maxLines,
     this.overflow,
+    this.textAlign,
   });
 
   @override
@@ -32,6 +34,7 @@ class AlarmText extends StatelessWidget {
       text,
       maxLines: maxLines,
       overflow: overflow,
+      textAlign: textAlign,
       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
             color: color ?? const Color(0xff412234),
             fontSize: typography.size,

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:despertador/src/feactures/presenter/ui/atomic/container_day_week.dart';
 import 'package:despertador/src/feactures/presenter/ui/moleculs/clock_painter.dart';
 import 'package:flutter/material.dart';
 
@@ -28,9 +29,36 @@ class ConfigAlarmPage extends StatelessWidget {
                 ),
               ],
             ),
+
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: 250,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: 7,
+                itemBuilder: (context, index) => ContainerDayWeek(),
+              ),
+            ),
+           Neumorphic
           ],
         ),
       ),
     );
   }
 }
+// GestureDetector(
+//             onTap: () async {
+//               TimeOfDay? newTime = await showTimePicker(
+//                 context: context,
+//                 initialTime: time,
+//               );
+//               if (newTime == null) return;
+//               setState(() {
+//                 time = newTime;
+//               });
+//             },
+//             child: Text(
+//               '$hours:$minutes',
+//               style: Theme.of(context).textTheme.headlineLarge,
+//             ),
+//           ),

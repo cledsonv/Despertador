@@ -6,14 +6,30 @@ class ContainerDayWeek extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 35,
-      width: 35,
+      width: 100,
+      height: 100,
+      margin: const EdgeInsets.only(right: 10),
       decoration: BoxDecoration(
-        border: Border.all(width: 1, color: Colors.white),
-        borderRadius: BorderRadius.circular(50),
+        color: Colors.grey[200],
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: const [
+          BoxShadow(
+            color: Color.fromARGB(255, 224, 224, 224),
+            offset: Offset(4, 4),
+            blurRadius: 8,
+          ),
+          BoxShadow(
+            color: Colors.white,
+            offset: Offset(-4, -4),
+            blurRadius: 8,
+          ),
+        ],
       ),
-      child: Center(
-        child: Text('S'),
+      child: const Center(
+        child: Text(
+          'Container Neumorphic',
+          style: TextStyle(fontSize: 20),
+        ),
       ),
     );
   }

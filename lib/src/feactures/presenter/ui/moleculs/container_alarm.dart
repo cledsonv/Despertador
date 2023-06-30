@@ -1,5 +1,6 @@
+import 'package:despertador/src/core/widget/alarm_text.dart';
 import 'package:despertador/src/feactures/presenter/ui/atomic/container_day_week.dart';
-import 'package:flutter/material.dart';
+import 'package:neumorphic_ui/neumorphic_ui.dart';
 
 class ContainerAlarm extends StatefulWidget {
   final void Function() onRemove;
@@ -12,18 +13,21 @@ class ContainerAlarm extends StatefulWidget {
 class _ContainerAlarmState extends State<ContainerAlarm> {
   TimeOfDay time = const TimeOfDay(hour: 10, minute: 50);
 
+  bool switchValue = false;
   @override
   Widget build(BuildContext context) {
-    final hours = time.hour.toString().padLeft(2, '0');
-    final minutes = time.minute.toString().padLeft(2, '0');
-    bool switchValue = false;
-    return Container(
+    return Neumorphic(
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 16),
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-        color: Colors.blueGrey[500],
-        borderRadius: BorderRadius.circular(20),
+      style: NeumorphicStyle(
+        color: const Color(0xffEAD7D7),
+        boxShape: NeumorphicBoxShape.roundRect(
+          BorderRadius.circular(25),
+        ),
+        intensity: 0.9,
+        surfaceIntensity: 0,
+        depth: 3,
+        shadowLightColor: Colors.white,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -31,59 +35,47 @@ class _ContainerAlarmState extends State<ContainerAlarm> {
         children: [
           Row(
             children: [
-              const Icon(Icons.label),
-              const SizedBox(width: 5),
-              const Text('Trabalho'),
-              const Spacer(),
-              SizedBox(
-                height: 30,
-                width: 35,
-                child: Transform.scale(
-                  transformHitTests: false,
-                  scale: .7,
-                  child: Switch(
-                    value: switchValue,
-                    onChanged: (value) {
-                      setState(() {
-                        switchValue = value;
-                      });
-                    },
-                  ),
+              NeumorphicIcon(
+                Icons.label,
+                size: 28,
+                style: const NeumorphicStyle(
+                  color: Color(0xff412234),
+                  depth: 10,
                 ),
               ),
+              const SizedBox(width: 5),
+              const AlarmText(
+                text: 'Trabalho',
+                typography: AlarmTypography.body,
+              ),
+              const Spacer(),
+              NeumorphicSwitch(
+                value: switchValue,
+                onChanged: (value) {
+                  setState(() {
+                    switchValue = value;
+                  });
+                },
+                height: 30,
+                style: const NeumorphicSwitchStyle(
+                  activeThumbColor: Colors.white,
+                  activeTrackColor: Color.fromARGB(40, 65, 34, 52),
+                  trackDepth: -4,
+                ),
+              )
             ],
           ),
-          GestureDetector(
-            onTap: () async {
-              TimeOfDay? newTime = await showTimePicker(
-                context: context,
-                initialTime: time,
-              );
-              if (newTime == null) return;
-              setState(() {
-                time = newTime;
-              });
-            },
-            child: Text(
-              '$hours:$minutes',
-              style: Theme.of(context).textTheme.headlineLarge,
-            ),
+          const AlarmText(
+            text: '18:00',
+            typography: AlarmTypography.hour,
           ),
-          const Row(
-            children: [
-              Text('Seg, Ter, Qua, Qui, Sex'),
-              Spacer(),
-              Icon(Icons.arrow_drop_down_circle),
-            ],
-          ),
-          ContainerDayWeek(),
           GestureDetector(
             onTap: widget.onRemove,
             child: const Row(
               children: [
                 Icon(Icons.delete),
                 SizedBox(width: 5),
-                Text('Excluir'),
+                AlarmText(text: 'Excluir'),
               ],
             ),
           ),

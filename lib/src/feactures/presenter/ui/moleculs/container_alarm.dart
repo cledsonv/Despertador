@@ -1,13 +1,19 @@
 import 'package:despertador/src/core/widget/alarm_text.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:neumorphic_ui/neumorphic_ui.dart';
 
 class ContainerAlarm extends StatefulWidget {
   final List<String> dayWeek;
+  final bool activeAlarm;
+  final void Function(bool)? onActiveAlarm;
   final void Function() onRemove;
 
-  const ContainerAlarm(
-      {super.key, required this.onRemove, required this.dayWeek});
+  const ContainerAlarm({
+    super.key,
+    required this.onRemove,
+    required this.dayWeek,
+    required this.onActiveAlarm,
+    required this.activeAlarm,
+  });
 
   @override
   State<ContainerAlarm> createState() => _ContainerAlarmState();
@@ -16,7 +22,6 @@ class ContainerAlarm extends StatefulWidget {
 class _ContainerAlarmState extends State<ContainerAlarm> {
   TimeOfDay time = const TimeOfDay(hour: 10, minute: 50);
 
-  bool switchValue = false;
   @override
   Widget build(BuildContext context) {
     final hours = time.hour.toString().padLeft(2, '0');
@@ -54,12 +59,8 @@ class _ContainerAlarmState extends State<ContainerAlarm> {
               ),
               const Spacer(),
               NeumorphicSwitch(
-                value: switchValue,
-                onChanged: (value) {
-                  setState(() {
-                    switchValue = value;
-                  });
-                },
+                value: widget.activeAlarm,
+                onChanged: widget.onActiveAlarm,
                 height: 30,
                 style: const NeumorphicSwitchStyle(
                   activeThumbColor: Colors.white,
@@ -111,7 +112,6 @@ class _ContainerAlarmState extends State<ContainerAlarm> {
               ],
             ),
           ),
-          
         ],
       ),
     );

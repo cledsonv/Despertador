@@ -88,7 +88,20 @@ class _AlarmPageState extends State<AlarmPage> {
                     ),
                   ),
                   child: ContainerAlarm(
+                    activeAlarm: alarm.active,
                     dayWeek: ct.listWeek,
+                    onActiveAlarm: (value) {
+                      setState(() {
+                        alarm.active = value;
+                        ct.update(
+                          id: alarm.id!,
+                          title: alarm.title,
+                          active: alarm.active,
+                          dateTime: alarm.dateTime,
+                          createAt: alarm.createAt,
+                        );
+                      });
+                    },
                     onRemove: () {
                       setState(
                         () {

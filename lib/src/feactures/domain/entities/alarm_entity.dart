@@ -2,7 +2,7 @@
 class AlarmEntity {
   String? id;
   final String title;
-  final bool active;
+  bool active;
   final int dateTime;
   final int createAt;
   final int updateAt;

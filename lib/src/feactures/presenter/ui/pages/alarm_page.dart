@@ -92,19 +92,29 @@ class _AlarmPageState extends State<AlarmPage> {
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          ConfigAlarmPage(dayWeek: ct.listWeek),
+                      builder: (context) => ConfigAlarmPage(
+                        dayWeek: ct.listWeek,
+                        id: alarm.id!,
+                        title: alarm.title,
+                        description: alarm.description,
+                        active: alarm.active,
+                        createAt: alarm.createAt,
+                        dateTime: alarm.dateTime,
+                        ct: ct,
+                      ),
                     ),
                   ),
                   child: ContainerAlarm(
                     activeAlarm: alarm.active,
                     dayWeek: ct.listWeek,
+                    title: alarm.title,
                     onActiveAlarm: (value) {
                       setState(() {
                         alarm.active = value;
                         ct.update(
                           id: alarm.id!,
                           title: alarm.title,
+                          description: alarm.description,
                           active: alarm.active,
                           dateTime: alarm.dateTime,
                           createAt: alarm.createAt,

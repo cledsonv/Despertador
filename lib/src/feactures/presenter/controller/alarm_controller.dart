@@ -52,6 +52,7 @@ class AlarmController extends ChangeNotifier {
       await _createAlarmUsecase.create(
         data: AlarmEntity(
           title: '',
+          description: '',
           active: true,
           dateTime: DateTime.now().millisecondsSinceEpoch,
           createAt: DateTime.now().millisecondsSinceEpoch,
@@ -68,6 +69,7 @@ class AlarmController extends ChangeNotifier {
   void update({
     required String id,
     required String title,
+    required String description,
     required bool active,
     required int dateTime,
     required int createAt,
@@ -75,6 +77,7 @@ class AlarmController extends ChangeNotifier {
     _updateAlarmUsecase.update(
         data: AlarmEntity(
           title: title,
+          description: description,
           active: active,
           dateTime: dateTime,
           createAt: createAt,

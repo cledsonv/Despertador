@@ -9,6 +9,7 @@ class AlarmMapper {
       dateTime: json['dateTime'],
       createAt: json['createAt'],
       updateAt: json['updateAt'],
+      description: json['description'],
     );
   }
 
@@ -20,6 +21,7 @@ class AlarmMapper {
       'dateTime': data.dateTime,
       'createAt': data.createAt,
       'updateAt': data.updateAt,
+      'description': data.description,
     };
   }
 }

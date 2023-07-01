@@ -4,6 +4,7 @@ import 'package:neumorphic_ui/neumorphic_ui.dart';
 class ContainerAlarm extends StatefulWidget {
   final List<String> dayWeek;
   final bool activeAlarm;
+  final String title;
   final void Function(bool)? onActiveAlarm;
   final void Function() onRemove;
 
@@ -13,6 +14,7 @@ class ContainerAlarm extends StatefulWidget {
     required this.dayWeek,
     required this.onActiveAlarm,
     required this.activeAlarm,
+    required this.title,
   });
 
   @override
@@ -38,78 +40,85 @@ class _ContainerAlarmState extends State<ContainerAlarm> {
         surfaceIntensity: 0,
         depth: 3,
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              NeumorphicIcon(
-                Icons.label,
-                size: 28,
-                style: const NeumorphicStyle(
-                  color: Color(0xff412234),
-                  depth: 10,
+              widget.title.isNotEmpty
+                  ? Row(
+                      children: [
+                        NeumorphicIcon(
+                          Icons.label,
+                          size: 28,
+                          style: const NeumorphicStyle(
+                            color: Color(0xff412234),
+                            depth: 10,
+                          ),
+                        ),
+                        const SizedBox(width: 5),
+                        AlarmText(
+                          text: widget.title,
+                          typography: AlarmTypography.body,
+                        ),
+                      ],
+                    )
+                  : const SizedBox.shrink(),
+              GestureDetector(
+                onTap: () async {
+                  TimeOfDay? newTime = await showTimePicker(
+                    helpText: 'Selecionar a hora',
+                    context: context,
+                    initialTime: time,
+                  );
+                  if (newTime == null) return;
+                  setState(() {
+                    time = newTime;
+                  });
+                },
+                child: AlarmText(
+                  text: '$hours:$minutes',
+                  typography: AlarmTypography.hour,
                 ),
               ),
-              const SizedBox(width: 5),
-              const AlarmText(
-                text: 'Trabalho',
-                typography: AlarmTypography.body,
-              ),
-              const Spacer(),
-              NeumorphicSwitch(
-                value: widget.activeAlarm,
-                onChanged: widget.onActiveAlarm,
+              SizedBox(
                 height: 30,
-                style: const NeumorphicSwitchStyle(
-                  activeThumbColor: Colors.white,
-                  activeTrackColor: Color.fromARGB(40, 65, 34, 52),
-                  trackDepth: -4,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: widget.dayWeek.length,
+                  itemBuilder: (context, idx) => Padding(
+                    padding: const EdgeInsets.only(right: 5),
+                    child: AlarmText(
+                      text: widget.dayWeek[idx].substring(0, 3),
+                    ),
+                  ),
                 ),
-              )
+              ),
+              GestureDetector(
+                onTap: widget.onRemove,
+                child: const Row(
+                  children: [
+                    Icon(Icons.delete),
+                    SizedBox(width: 5),
+                    AlarmText(text: 'Excluir'),
+                  ],
+                ),
+              ),
             ],
           ),
-          GestureDetector(
-            onTap: () async {
-              TimeOfDay? newTime = await showTimePicker(
-                helpText: 'Selecionar a hora',
-                context: context,
-                initialTime: time,
-              );
-              if (newTime == null) return;
-              setState(() {
-                time = newTime;
-              });
-            },
-            child: AlarmText(
-              text: '$hours:$minutes',
-              typography: AlarmTypography.hour,
-            ),
-          ),
-          SizedBox(
+          const Spacer(),
+          NeumorphicSwitch(
+            value: widget.activeAlarm,
+            onChanged: widget.onActiveAlarm,
             height: 30,
-            child: ListView.builder(
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: widget.dayWeek.length,
-              itemBuilder: (context, idx) => Padding(
-                padding: const EdgeInsets.only(right: 5),
-                child: AlarmText(
-                  text: widget.dayWeek[idx].substring(0, 3),
-                ),
-              ),
-            ),
-          ),
-          GestureDetector(
-            onTap: widget.onRemove,
-            child: const Row(
-              children: [
-                Icon(Icons.delete),
-                SizedBox(width: 5),
-                AlarmText(text: 'Excluir'),
-              ],
+            style: const NeumorphicSwitchStyle(
+              activeThumbColor: Colors.white,
+              activeTrackColor: Color.fromARGB(40, 65, 34, 52),
+              trackDepth: -4,
             ),
           ),
         ],

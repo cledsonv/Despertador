@@ -2,6 +2,7 @@
 class AlarmEntity {
   String? id;
   final String title;
+  final String description;
   bool active;
   final int dateTime;
   final int createAt;
@@ -10,6 +11,7 @@ class AlarmEntity {
   AlarmEntity({
     this.id,
     required this.title,
+    required this.description,
     required this.active,
     required this.dateTime,
     required this.createAt,

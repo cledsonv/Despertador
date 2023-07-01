@@ -1,7 +1,5 @@
-import 'dart:async';
 import 'dart:math';
 import 'package:despertador/src/feactures/presenter/ui/moleculs/clock_painter.dart';
-import 'package:flutter/material.dart';
 import 'package:neumorphic_ui/neumorphic_ui.dart';
 
 class ClockView extends StatefulWidget {
@@ -13,19 +11,11 @@ class ClockView extends StatefulWidget {
 
 class _ClockViewState extends State<ClockView> {
   @override
-  void initState() {
-    Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {});
-    });
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Neumorphic(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       style: const NeumorphicStyle(
-        color: const Color(0xffEAD7D7),
+        color: Color(0xffEAD7D7),
         boxShape: NeumorphicBoxShape.circle(),
         intensity: 0.9,
         surfaceIntensity: 0,
@@ -33,9 +23,9 @@ class _ClockViewState extends State<ClockView> {
         shadowLightColor: Colors.white,
       ),
       child: Neumorphic(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         style: const NeumorphicStyle(
-          color: const Color(0xffEAD7D7),
+          color: Color(0xffEAD7D7),
           boxShape: NeumorphicBoxShape.circle(),
           intensity: 0.6,
           surfaceIntensity: 0,
@@ -44,7 +34,7 @@ class _ClockViewState extends State<ClockView> {
         ),
         child: Neumorphic(
           style: const NeumorphicStyle(
-            color: const Color(0xffEAD7D7),
+            color: Color(0xffEAD7D7),
             boxShape: NeumorphicBoxShape.circle(),
             intensity: 0.9,
             surfaceIntensity: 0,

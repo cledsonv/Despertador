@@ -20,16 +20,25 @@ class _AlarmPageState extends State<AlarmPage> {
   DateTime date = DateTime.now();
 
   @override
+  void dispose() {
+    date;
+    super.dispose();
+  }
+
+  @override
   void initState() {
     ct.init();
     ct.addListener(() {
       setState(() {});
     });
-    Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        date = DateTime.now();
+
+    if (mounted) {
+      Timer.periodic(const Duration(seconds: 1), (timer) {
+        setState(() {
+          date = DateTime.now();
+        });
       });
-    });
+    }
     super.initState();
   }
 

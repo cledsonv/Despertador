@@ -19,6 +19,7 @@ dependencies:
   neumorphic_ui: ^1.0.0
   intl: ^0.18.1
   google_fonts: ^5.1.0
+  numberpicker: ^2.1.2
 
 dev_dependencies:
   flutter_test:
@@ -31,6 +32,11 @@ flutter:
 
   uses-material-design: true
 
-
+  assets:
+    - assets/mozart.mp3
+    - assets/nokia.mp3
+    - assets/one_piece.mp3
+    - assets/star_wars.mp3
+    - assets/marimba.mp3
 
 

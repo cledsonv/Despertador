@@ -1,7 +1,8 @@
 import 'package:despertador/src/core/widget/alarm_text.dart';
 import 'package:despertador/src/feactures/presenter/controller/alarm_controller.dart';
-import 'package:despertador/src/feactures/presenter/ui/atomic/container_day_week.dart';
 import 'package:despertador/src/feactures/presenter/ui/atomic/custom_dropdown_button.dart';
+import 'package:despertador/src/feactures/presenter/ui/moleculs/custom_text_field.dart';
+import 'package:despertador/src/feactures/presenter/ui/moleculs/select_day_week.dart';
 import 'package:despertador/src/feactures/presenter/ui/moleculs/select_hour.dart';
 import 'package:neumorphic_ui/neumorphic_ui.dart';
 
@@ -16,7 +17,6 @@ class ConfigAlarmPage extends StatefulWidget {
   final int dateTime;
   final int createAt;
 
-  //final void Function() onSelectWeek;
   const ConfigAlarmPage(
       {super.key,
       required this.listWeek,
@@ -104,89 +104,23 @@ class _ConfigAlarmPageState extends State<ConfigAlarmPage> {
               const SizedBox(height: 20),
               const SelectHour(),
               const SizedBox(height: 20),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.8,
-                height: 50,
-                child: ListView.builder(
-                  itemCount: widget.listWeek.length,
-                  scrollDirection: Axis.horizontal,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, idx) => InkWell(
-                    onTap: () {
-                      setState(() {
-                        widget.dayWeek.contains(widget.listWeek[idx])
-                            ? widget.dayWeek.remove(widget.listWeek[idx])
-                            : widget.dayWeek.add(widget.listWeek[idx]);
-                      });
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 5),
-                      child: Center(
-                        child: ContainerDayWeek(
-                          isSelect: widget.dayWeek.contains(
-                            widget.listWeek[idx],
-                          ),
-                          text: widget.listWeek[idx].substring(0, 1),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              SelectDayWeek(dayWeek: widget.dayWeek, listWeek: widget.listWeek),
               const SizedBox(height: 20),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const AlarmText(text: 'Nome do alarme'),
-                  const SizedBox(height: 10),
-                  Neumorphic(
-                    style: NeumorphicStyle(
-                      color: const Color(0xffEAD7D7),
-                      boxShape: NeumorphicBoxShape.roundRect(
-                        BorderRadius.circular(25),
-                      ),
-                      intensity: 0.9,
-                      surfaceIntensity: 0,
-                      depth: -3,
-                    ),
-                    child: TextField(
-                      controller: titleController,
-                      maxLength: 30,
-                      buildCounter: (BuildContext context,
-                              {int? currentLength,
-                              int? maxLength,
-                              bool? isFocused}) =>
-                          null,
-                      decoration: const InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 16),
-                        border: InputBorder.none,
-                        hintText: 'Escreva o título para o alarme',
-                      ),
-                    ),
+                  CustomTextField(
+                    title: 'Nome do alarme',
+                    textEditingController: titleController,
+                    maxLenght: 30,
+                    hintText: 'Escreva o título para o alarme',
                   ),
                   const SizedBox(height: 20),
-                  const AlarmText(text: 'Descrição do alarme'),
-                  const SizedBox(height: 10),
-                  Neumorphic(
-                    style: NeumorphicStyle(
-                      color: const Color(0xffEAD7D7),
-                      boxShape: NeumorphicBoxShape.roundRect(
-                        BorderRadius.circular(25),
-                      ),
-                      intensity: 0.9,
-                      surfaceIntensity: 0,
-                      depth: -3,
-                    ),
-                    child: TextField(
-                      controller: descriptionController,
-                      maxLines: 6,
-                      decoration: const InputDecoration(
-                        contentPadding:
-                            EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                        border: InputBorder.none,
-                        hintText: 'Escreva a descrição para o alarme',
-                      ),
-                    ),
+                  CustomTextField(
+                    title: 'Descrição do alarme',
+                    textEditingController: descriptionController,
+                    maxLines: 6,
+                    hintText: 'Escreva a descrição para o alarme',
                   ),
                   const SizedBox(height: 20),
                   const AlarmText(text: 'Escolha um toque'),

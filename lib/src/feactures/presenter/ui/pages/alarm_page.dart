@@ -1,6 +1,7 @@
 import 'package:despertador/src/feactures/presenter/controller/alarm_controller.dart';
 import 'package:despertador/src/feactures/presenter/ui/atomic/clock_now.dart';
 import 'package:despertador/src/feactures/presenter/ui/moleculs/container_alarm.dart';
+import 'package:despertador/src/feactures/presenter/ui/organisms/list_container_alarm.dart';
 import 'package:despertador/src/feactures/presenter/ui/pages/config_alarm_page.dart';
 import 'package:get_it/get_it.dart';
 import 'package:neumorphic_ui/neumorphic_ui.dart';
@@ -54,50 +55,9 @@ class _AlarmPageState extends State<AlarmPage> {
               itemCount: ct.listAlarm.length,
               itemBuilder: (context, idx) {
                 var alarm = ct.listAlarm[idx];
-                return GestureDetector(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ConfigAlarmPage(
-                        listWeek: ct.listWeek,
-                        id: alarm.id!,
-                        title: alarm.title,
-                        description: alarm.description,
-                        dayWeek: alarm.dayWeek,
-                        active: alarm.active,
-                        createAt: alarm.createAt,
-                        dateTime: alarm.dateTime,
-                        ct: ct,
-                      ),
-                    ),
-                  ),
-                  child: ContainerAlarm(
-                    activeAlarm: alarm.active,
-                    listWeek: ct.listWeek,
-                    dayWeek: alarm.dayWeek,
-                    title: alarm.title,
-                    onActiveAlarm: (value) {
-                      setState(() {
-                        alarm.active = value;
-                        ct.update(
-                          id: alarm.id!,
-                          dayWeek: alarm.dayWeek,
-                          title: alarm.title,
-                          description: alarm.description,
-                          active: alarm.active,
-                          dateTime: alarm.dateTime,
-                          createAt: alarm.createAt,
-                        );
-                      });
-                    },
-                    onRemove: () {
-                      setState(
-                        () {
-                          ct.delete(alarm.id!);
-                        },
-                      );
-                    },
-                  ),
+                return ListContainerAlarm(
+                  alarm: alarm,
+                  ct: ct,
                 );
               },
             ),

@@ -43,6 +43,13 @@ class _ConfigAlarmPageState extends State<ConfigAlarmPage> {
   }
 
   @override
+  void dispose() {
+    titleController;
+    descriptionController;
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xffEAD7D7),
@@ -57,17 +64,13 @@ class _ConfigAlarmPageState extends State<ConfigAlarmPage> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.save),
         onPressed: () {
-          setState(
-            () {
-              widget.ct.update(
-                id: widget.id,
-                title: titleController.text,
-                description: descriptionController.text,
-                active: widget.active,
-                dateTime: widget.dateTime,
-                createAt: widget.createAt,
-              );
-            },
+          widget.ct.update(
+            id: widget.id,
+            title: titleController.text,
+            description: descriptionController.text,
+            active: widget.active,
+            dateTime: widget.dateTime,
+            createAt: widget.createAt,
           );
         },
       ),

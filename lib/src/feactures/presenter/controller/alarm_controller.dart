@@ -73,21 +73,26 @@ class AlarmController extends ChangeNotifier {
     required bool active,
     required int dateTime,
     required int createAt,
-  }) {
-    _updateAlarmUsecase.update(
-        data: AlarmEntity(
-          title: title,
-          description: description,
-          active: active,
-          dateTime: dateTime,
-          createAt: createAt,
-          updateAt: DateTime.now().millisecondsSinceEpoch,
-        ),
-        id: id);
+  }) async {
+    await _updateAlarmUsecase.update(
+      data: AlarmEntity(
+        title: title,
+        id: id,
+        description: description,
+        active: active,
+        dateTime: dateTime,
+        createAt: createAt,
+        updateAt: DateTime.now().millisecondsSinceEpoch,
+      ),
+      id: id,
+    );
+    list();
+    notifyListeners();
   }
 
   void delete(String id) async {
     try {
+      print(id);
       await _deleteAlarmUsecase.delete(id: id);
       list();
     } catch (e) {

@@ -2,8 +2,9 @@ import 'package:despertador/src/core/widget/alarm_text.dart';
 import 'package:neumorphic_ui/neumorphic_ui.dart';
 
 class ContainerAlarm extends StatefulWidget {
-  final List<String> dayWeek;
+  final List<String> listWeek;
   final bool activeAlarm;
+  final List<String> dayWeek;
   final String title;
   final void Function(bool)? onActiveAlarm;
   final void Function() onRemove;
@@ -11,10 +12,11 @@ class ContainerAlarm extends StatefulWidget {
   const ContainerAlarm({
     super.key,
     required this.onRemove,
-    required this.dayWeek,
+    required this.listWeek,
     required this.onActiveAlarm,
     required this.activeAlarm,
     required this.title,
+    required this.dayWeek,
   });
 
   @override
@@ -89,11 +91,14 @@ class _ContainerAlarmState extends State<ContainerAlarm> {
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: widget.dayWeek.length,
+                  itemCount: widget.listWeek.length,
                   itemBuilder: (context, idx) => Padding(
                     padding: const EdgeInsets.only(right: 5),
                     child: AlarmText(
-                      text: widget.dayWeek[idx].substring(0, 3),
+                      text: widget.listWeek[idx].substring(0, 3),
+                      color: widget.dayWeek.contains(widget.listWeek[idx])
+                          ? null
+                          : Colors.grey,
                     ),
                   ),
                 ),

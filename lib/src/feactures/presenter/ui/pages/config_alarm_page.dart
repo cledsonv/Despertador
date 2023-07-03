@@ -6,10 +6,11 @@ import 'package:despertador/src/feactures/presenter/ui/moleculs/select_hour.dart
 import 'package:neumorphic_ui/neumorphic_ui.dart';
 
 class ConfigAlarmPage extends StatefulWidget {
-  final List<String> dayWeek;
+  final List<String> listWeek;
   final String id;
   final String title;
   final String description;
+  final List<String> dayWeek;
   final AlarmController ct;
   final bool active;
   final int dateTime;
@@ -18,14 +19,15 @@ class ConfigAlarmPage extends StatefulWidget {
   //final void Function() onSelectWeek;
   const ConfigAlarmPage(
       {super.key,
-      required this.dayWeek,
+      required this.listWeek,
       required this.title,
       required this.description,
       required this.ct,
       required this.active,
       required this.dateTime,
       required this.createAt,
-      required this.id});
+      required this.id,
+      required this.dayWeek});
 
   @override
   State<ConfigAlarmPage> createState() => _ConfigAlarmPageState();
@@ -56,19 +58,39 @@ class _ConfigAlarmPageState extends State<ConfigAlarmPage> {
       appBar: AppBar(
         backgroundColor: const Color(0xffEAD7D7),
         title: AlarmText(
-          text: widget.title,
+          text: titleController.text,
           overflow: TextOverflow.ellipsis,
+        ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            widget.ct.update(
+              id: widget.id,
+              title: titleController.text,
+              description: descriptionController.text,
+              active: widget.active,
+              dayWeek: widget.dayWeek,
+              dateTime: widget.dateTime,
+              createAt: widget.createAt,
+            );
+            Navigator.pop(context);
+          },
         ),
         centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.save),
+        backgroundColor: const Color(0xff593A58),
+        child: const Icon(
+          Icons.save,
+          color: Colors.white,
+        ),
         onPressed: () {
           widget.ct.update(
             id: widget.id,
             title: titleController.text,
             description: descriptionController.text,
             active: widget.active,
+            dayWeek: widget.dayWeek,
             dateTime: widget.dateTime,
             createAt: widget.createAt,
           );
@@ -86,17 +108,25 @@ class _ConfigAlarmPageState extends State<ConfigAlarmPage> {
                 width: MediaQuery.of(context).size.width * 0.8,
                 height: 50,
                 child: ListView.builder(
-                  itemCount: widget.dayWeek.length,
+                  itemCount: widget.listWeek.length,
                   scrollDirection: Axis.horizontal,
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, idx) => InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      setState(() {
+                        widget.dayWeek.contains(widget.listWeek[idx])
+                            ? widget.dayWeek.remove(widget.listWeek[idx])
+                            : widget.dayWeek.add(widget.listWeek[idx]);
+                      });
+                    },
                     child: Padding(
                       padding: const EdgeInsets.only(right: 5),
                       child: Center(
                         child: ContainerDayWeek(
-                          isSelect: false,
-                          text: widget.dayWeek[idx].substring(0, 1),
+                          isSelect: widget.dayWeek.contains(
+                            widget.listWeek[idx],
+                          ),
+                          text: widget.listWeek[idx].substring(0, 1),
                         ),
                       ),
                     ),

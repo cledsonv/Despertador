@@ -4,6 +4,7 @@ class AlarmEntity {
   final String title;
   final String description;
   bool active;
+  final List<String> dayWeek;
   final int dateTime;
   final int createAt;
   final int updateAt;
@@ -13,6 +14,7 @@ class AlarmEntity {
     required this.title,
     required this.description,
     required this.active,
+    required this.dayWeek,
     required this.dateTime,
     required this.createAt,
     required this.updateAt,

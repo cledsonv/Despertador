@@ -5,11 +5,12 @@ class AlarmMapper {
     return AlarmEntity(
       id: json['id'],
       title: json['title'],
+      description: json['description'],
       active: json['active'],
+      dayWeek: List<String>.from(json['dayWeek']),
       dateTime: json['dateTime'],
       createAt: json['createAt'],
       updateAt: json['updateAt'],
-      description: json['description'],
     );
   }
 
@@ -17,11 +18,12 @@ class AlarmMapper {
     return {
       'id': data.id,
       'title': data.title,
+      'description': data.description,
       'active': data.active,
+      'dayWeek': data.dayWeek,
       'dateTime': data.dateTime,
       'createAt': data.createAt,
       'updateAt': data.updateAt,
-      'description': data.description,
     };
   }
 }

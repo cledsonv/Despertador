@@ -54,6 +54,7 @@ class AlarmController extends ChangeNotifier {
           title: '',
           description: '',
           active: true,
+          dayWeek: [],
           dateTime: DateTime.now().millisecondsSinceEpoch,
           createAt: DateTime.now().millisecondsSinceEpoch,
           updateAt: DateTime.now().millisecondsSinceEpoch,
@@ -71,6 +72,7 @@ class AlarmController extends ChangeNotifier {
     required String title,
     required String description,
     required bool active,
+    required List<String> dayWeek,
     required int dateTime,
     required int createAt,
   }) async {
@@ -80,6 +82,7 @@ class AlarmController extends ChangeNotifier {
         id: id,
         description: description,
         active: active,
+        dayWeek: dayWeek,
         dateTime: dateTime,
         createAt: createAt,
         updateAt: DateTime.now().millisecondsSinceEpoch,

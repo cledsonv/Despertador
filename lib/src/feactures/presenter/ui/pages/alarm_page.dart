@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:despertador/src/feactures/presenter/controller/alarm_controller.dart';
 import 'package:despertador/src/feactures/presenter/ui/atomic/clock_now.dart';
 import 'package:despertador/src/feactures/presenter/ui/moleculs/container_alarm.dart';
@@ -60,10 +59,11 @@ class _AlarmPageState extends State<AlarmPage> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => ConfigAlarmPage(
-                        dayWeek: ct.listWeek,
+                        listWeek: ct.listWeek,
                         id: alarm.id!,
                         title: alarm.title,
                         description: alarm.description,
+                        dayWeek: alarm.dayWeek,
                         active: alarm.active,
                         createAt: alarm.createAt,
                         dateTime: alarm.dateTime,
@@ -73,13 +73,15 @@ class _AlarmPageState extends State<AlarmPage> {
                   ),
                   child: ContainerAlarm(
                     activeAlarm: alarm.active,
-                    dayWeek: ct.listWeek,
+                    listWeek: ct.listWeek,
+                    dayWeek: alarm.dayWeek,
                     title: alarm.title,
                     onActiveAlarm: (value) {
                       setState(() {
                         alarm.active = value;
                         ct.update(
                           id: alarm.id!,
+                          dayWeek: alarm.dayWeek,
                           title: alarm.title,
                           description: alarm.description,
                           active: alarm.active,

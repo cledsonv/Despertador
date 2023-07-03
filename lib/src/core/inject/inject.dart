@@ -42,6 +42,6 @@ class Inject {
 
     //controller
     getIt.registerFactory<AlarmController>(
-        () => AlarmController(getIt(), getIt(), getIt(), getIt(), getIt()));
+        () => AlarmController(getIt(), getIt(), getIt(), getIt()));
   }
 }

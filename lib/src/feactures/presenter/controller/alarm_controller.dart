@@ -2,7 +2,6 @@
 import 'package:despertador/src/feactures/domain/entities/alarm_entity.dart';
 import 'package:despertador/src/feactures/domain/usecases/create_alarm_usecase.dart';
 import 'package:despertador/src/feactures/domain/usecases/delete_alarm_usecase.dart';
-import 'package:despertador/src/feactures/domain/usecases/get_alarm_usecase.dart';
 import 'package:despertador/src/feactures/domain/usecases/list_alarm_usecase.dart';
 import 'package:despertador/src/feactures/domain/usecases/update_alarm_usecase.dart';
 import 'package:flutter/material.dart';
@@ -11,13 +10,13 @@ class AlarmController extends ChangeNotifier {
   final CreateAlarmUsecase _createAlarmUsecase;
   final DeleteAlarmUsecase _deleteAlarmUsecase;
   final UpdateAlarmUsecase _updateAlarmUsecase;
-  final GetAlarmUsecase _getAlarmUsecase;
+  //final GetAlarmUsecase _getAlarmUsecase;
   final ListAlarmUsecase _listAlarmUsecase;
   AlarmController(
     this._createAlarmUsecase,
     this._deleteAlarmUsecase,
     this._updateAlarmUsecase,
-    this._getAlarmUsecase,
+    //this._getAlarmUsecase,
     this._listAlarmUsecase,
   );
 
@@ -67,27 +66,12 @@ class AlarmController extends ChangeNotifier {
     }
   }
 
-  void update({
-    required String id,
-    required String title,
-    required String description,
-    required bool active,
-    required List<String> dayWeek,
-    required int dateTime,
-    required int createAt,
-  }) async {
+  void update({required AlarmEntity alarmEntity}) async {
     await _updateAlarmUsecase.update(
-      data: AlarmEntity(
-        title: title,
-        id: id,
-        description: description,
-        active: active,
-        dayWeek: dayWeek,
-        dateTime: dateTime,
-        createAt: createAt,
+      data: alarmEntity.copyWith(
         updateAt: DateTime.now().millisecondsSinceEpoch,
       ),
-      id: id,
+      id: alarmEntity.id!,
     );
     list();
     notifyListeners();

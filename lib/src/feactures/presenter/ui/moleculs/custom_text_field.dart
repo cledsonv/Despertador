@@ -5,6 +5,7 @@ class CustomTextField extends StatelessWidget {
   final String title;
   final String hintText;
   final int? maxLenght;
+  final TextInputType? textInputType;
   final int? maxLines;
   final TextEditingController textEditingController;
   const CustomTextField({
@@ -13,7 +14,7 @@ class CustomTextField extends StatelessWidget {
     this.maxLenght,
     required this.textEditingController,
     required this.hintText,
-    this.maxLines,
+    this.maxLines,  this.textInputType,
   });
 
   @override
@@ -37,6 +38,7 @@ class CustomTextField extends StatelessWidget {
             controller: textEditingController,
             maxLines: maxLines,
             maxLength: maxLenght,
+            keyboardType: textInputType,
             buildCounter: (BuildContext context,
                     {int? currentLength, int? maxLength, bool? isFocused}) =>
                 null,

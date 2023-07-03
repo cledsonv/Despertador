@@ -1,4 +1,5 @@
 import 'package:despertador/src/core/widget/alarm_text.dart';
+import 'package:despertador/src/feactures/domain/entities/alarm_entity.dart';
 import 'package:despertador/src/feactures/presenter/controller/alarm_controller.dart';
 import 'package:despertador/src/feactures/presenter/ui/atomic/custom_dropdown_button.dart';
 import 'package:despertador/src/feactures/presenter/ui/moleculs/custom_text_field.dart';
@@ -8,26 +9,15 @@ import 'package:neumorphic_ui/neumorphic_ui.dart';
 
 class ConfigAlarmPage extends StatefulWidget {
   final List<String> listWeek;
-  final String id;
-  final String title;
-  final String description;
-  final List<String> dayWeek;
+  final AlarmEntity alarm;
   final AlarmController ct;
-  final bool active;
-  final int dateTime;
-  final int createAt;
 
-  const ConfigAlarmPage(
-      {super.key,
-      required this.listWeek,
-      required this.title,
-      required this.description,
-      required this.ct,
-      required this.active,
-      required this.dateTime,
-      required this.createAt,
-      required this.id,
-      required this.dayWeek});
+  const ConfigAlarmPage({
+    super.key,
+    required this.listWeek,
+    required this.ct,
+    required this.alarm,
+  });
 
   @override
   State<ConfigAlarmPage> createState() => _ConfigAlarmPageState();
@@ -39,8 +29,8 @@ class _ConfigAlarmPageState extends State<ConfigAlarmPage> {
 
   @override
   void initState() {
-    titleController.text = widget.title;
-    descriptionController.text = widget.description;
+    titleController.text = widget.alarm.title;
+    descriptionController.text = widget.alarm.description;
     super.initState();
   }
 
@@ -65,13 +55,10 @@ class _ConfigAlarmPageState extends State<ConfigAlarmPage> {
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
             widget.ct.update(
-              id: widget.id,
-              title: titleController.text,
-              description: descriptionController.text,
-              active: widget.active,
-              dayWeek: widget.dayWeek,
-              dateTime: widget.dateTime,
-              createAt: widget.createAt,
+              alarmEntity: widget.alarm.copyWith(
+                title: titleController.text,
+                description: descriptionController.text,
+              ),
             );
             Navigator.pop(context);
           },
@@ -86,13 +73,10 @@ class _ConfigAlarmPageState extends State<ConfigAlarmPage> {
         ),
         onPressed: () {
           widget.ct.update(
-            id: widget.id,
-            title: titleController.text,
-            description: descriptionController.text,
-            active: widget.active,
-            dayWeek: widget.dayWeek,
-            dateTime: widget.dateTime,
-            createAt: widget.createAt,
+            alarmEntity: widget.alarm.copyWith(
+              title: titleController.text,
+              description: descriptionController.text,
+            ),
           );
         },
       ),
@@ -104,7 +88,10 @@ class _ConfigAlarmPageState extends State<ConfigAlarmPage> {
               const SizedBox(height: 20),
               const SelectHour(),
               const SizedBox(height: 20),
-              SelectDayWeek(dayWeek: widget.dayWeek, listWeek: widget.listWeek),
+              SelectDayWeek(
+                dayWeek: widget.alarm.dayWeek,
+                listWeek: widget.listWeek,
+              ),
               const SizedBox(height: 20),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,6 +100,7 @@ class _ConfigAlarmPageState extends State<ConfigAlarmPage> {
                     title: 'Nome do alarme',
                     textEditingController: titleController,
                     maxLenght: 30,
+                    textInputType: TextInputType.text,
                     hintText: 'Escreva o título para o alarme',
                   ),
                   const SizedBox(height: 20),

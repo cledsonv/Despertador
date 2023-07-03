@@ -19,4 +19,26 @@ class AlarmEntity {
     required this.createAt,
     required this.updateAt,
   });
+
+  AlarmEntity copyWith({
+    String? id,
+    String? title,
+    String? description,
+    bool? active,
+    List<String>? dayWeek,
+    int? dateTime,
+    int? createAt,
+    int? updateAt,
+  }) {
+    return AlarmEntity(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      active: active ?? this.active,
+      dayWeek: dayWeek ?? this.dayWeek,
+      dateTime: dateTime ?? this.dateTime,
+      createAt: createAt ?? this.createAt,
+      updateAt: updateAt ?? this.updateAt,
+    );
+  }
 }

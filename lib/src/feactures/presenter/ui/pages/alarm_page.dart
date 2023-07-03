@@ -1,8 +1,6 @@
 import 'package:despertador/src/feactures/presenter/controller/alarm_controller.dart';
 import 'package:despertador/src/feactures/presenter/ui/atomic/clock_now.dart';
-import 'package:despertador/src/feactures/presenter/ui/moleculs/container_alarm.dart';
 import 'package:despertador/src/feactures/presenter/ui/organisms/list_container_alarm.dart';
-import 'package:despertador/src/feactures/presenter/ui/pages/config_alarm_page.dart';
 import 'package:get_it/get_it.dart';
 import 'package:neumorphic_ui/neumorphic_ui.dart';
 

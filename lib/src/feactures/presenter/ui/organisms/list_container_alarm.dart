@@ -22,13 +22,7 @@ class _ListContainerAlarmState extends State<ListContainerAlarm> {
         MaterialPageRoute(
           builder: (context) => ConfigAlarmPage(
             listWeek: widget.ct.listWeek,
-            id: widget.alarm.id!,
-            title: widget.alarm.title,
-            description: widget.alarm.description,
-            dayWeek: widget.alarm.dayWeek,
-            active: widget.alarm.active,
-            createAt: widget.alarm.createAt,
-            dateTime: widget.alarm.dateTime,
+            alarm: widget.alarm,
             ct: widget.ct,
           ),
         ),
@@ -40,15 +34,8 @@ class _ListContainerAlarmState extends State<ListContainerAlarm> {
         title: widget.alarm.title,
         onActiveAlarm: (value) {
           setState(() {
-            widget.alarm.active = value;
             widget.ct.update(
-              id: widget.alarm.id!,
-              dayWeek: widget.alarm.dayWeek,
-              title: widget.alarm.title,
-              description: widget.alarm.description,
-              active: widget.alarm.active,
-              dateTime: widget.alarm.dateTime,
-              createAt: widget.alarm.createAt,
+              alarmEntity: widget.alarm.copyWith(active: value),
             );
           });
         },

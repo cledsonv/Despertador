@@ -1,12 +1,10 @@
 import 'dart:async';
-import 'package:despertador/src/core/widget/alarm_text.dart';
 import 'package:despertador/src/feactures/presenter/controller/alarm_controller.dart';
+import 'package:despertador/src/feactures/presenter/ui/atomic/clock_now.dart';
 import 'package:despertador/src/feactures/presenter/ui/moleculs/container_alarm.dart';
 import 'package:despertador/src/feactures/presenter/ui/pages/config_alarm_page.dart';
 import 'package:get_it/get_it.dart';
-import 'package:intl/intl.dart';
 import 'package:neumorphic_ui/neumorphic_ui.dart';
-import 'dart:math' as math;
 
 class AlarmPage extends StatefulWidget {
   const AlarmPage({super.key});
@@ -17,13 +15,6 @@ class AlarmPage extends StatefulWidget {
 
 class _AlarmPageState extends State<AlarmPage> {
   AlarmController ct = GetIt.I();
-  DateTime date = DateTime.now();
-
-  @override
-  void dispose() {
-    date;
-    super.dispose();
-  }
 
   @override
   void initState() {
@@ -31,14 +22,6 @@ class _AlarmPageState extends State<AlarmPage> {
     ct.addListener(() {
       setState(() {});
     });
-
-    if (mounted) {
-      Timer.periodic(const Duration(seconds: 1), (timer) {
-        setState(() {
-          date = DateTime.now();
-        });
-      });
-    }
     super.initState();
   }
 
@@ -65,24 +48,8 @@ class _AlarmPageState extends State<AlarmPage> {
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
-            SliverToBoxAdapter(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  AlarmText(
-                    text: DateFormat('HH:mm').format(date),
-                    typography: AlarmTypography.clock,
-                  ),
-                  Transform.rotate(
-                    angle: -math.pi / 2,
-                    child: const AlarmText(
-                      text: 'PM',
-                      typography: AlarmTypography.title,
-                    ),
-                  ),
-                ],
-              ),
+            const SliverToBoxAdapter(
+              child: ClockNow(),
             ),
             SliverList.builder(
               itemCount: ct.listAlarm.length,

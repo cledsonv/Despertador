@@ -4,13 +4,29 @@ import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 class SelectHour extends StatefulWidget {
-  const SelectHour({super.key});
+  final int hour;
+  final int minute;
+  const SelectHour({super.key, required this.hour, required this.minute});
 
   @override
   State<SelectHour> createState() => _SelectHourState();
 }
 
 class _SelectHourState extends State<SelectHour> {
+  int hourConvert = 1;
+
+  @override
+  void initState() {
+    if (widget.hour == 0) {
+      hourConvert = 12;
+    } else if (widget.hour > 12) {
+      hourConvert = widget.hour - 12;
+    } else {
+      hourConvert = widget.hour;
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -21,11 +37,13 @@ class _SelectHourState extends State<SelectHour> {
             NumberPicker(
               minValue: 1,
               maxValue: 12,
-              value: 3,
+              value: hourConvert,
               zeroPad: true,
               infiniteLoop: true,
               onChanged: (value) {
-                setState(() {});
+                setState(
+                  () {},
+                );
               },
               itemWidth: 100,
               itemHeight: 75,
@@ -47,7 +65,7 @@ class _SelectHourState extends State<SelectHour> {
             NumberPicker(
               minValue: 0,
               maxValue: 59,
-              value: 23,
+              value: widget.minute,
               zeroPad: true,
               infiniteLoop: true,
               itemWidth: 100,

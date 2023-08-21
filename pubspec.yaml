@@ -17,14 +17,16 @@ dependencies:
   uuid: ^3.0.7
   get_it: ^7.6.0
   neumorphic_ui: ^1.0.0
-  intl: ^0.18.1
+  intl: ^0.17.0
   google_fonts: ^5.1.0
   numberpicker: ^2.1.2
+  alarm: ^1.2.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  mocktail: ^0.3.0
   flutter_lints: ^2.0.0
 
 

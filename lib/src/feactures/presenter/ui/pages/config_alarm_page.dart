@@ -86,7 +86,13 @@ class _ConfigAlarmPageState extends State<ConfigAlarmPage> {
           child: Column(
             children: [
               const SizedBox(height: 20),
-              const SelectHour(),
+              SelectHour(
+                hour: DateTime.fromMillisecondsSinceEpoch(widget.alarm.dateTime)
+                    .hour,
+                minute:
+                    DateTime.fromMillisecondsSinceEpoch(widget.alarm.dateTime)
+                        .minute,
+              ),
               const SizedBox(height: 20),
               SelectDayWeek(
                 dayWeek: widget.alarm.dayWeek,

@@ -1,4 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:math';
+
+import 'package:alarm/alarm.dart';
+import 'package:alarm/model/alarm_settings.dart';
 import 'package:despertador/src/feactures/domain/entities/alarm_entity.dart';
 import 'package:despertador/src/feactures/domain/usecases/create_alarm_usecase.dart';
 import 'package:despertador/src/feactures/domain/usecases/delete_alarm_usecase.dart';
@@ -19,6 +23,10 @@ class AlarmController extends ChangeNotifier {
     //this._getAlarmUsecase,
     this._listAlarmUsecase,
   );
+
+  static void testePrint() {
+    print('testinho');
+  }
 
   void init() async {
     list();
@@ -50,8 +58,10 @@ class AlarmController extends ChangeNotifier {
     try {
       await _createAlarmUsecase.create(
         data: AlarmEntity(
+          idAlarm: Random().nextInt(1000),
           title: '',
           description: '',
+          music: 'assets/marimba.mp3',
           active: true,
           dayWeek: [],
           dateTime: DateTime.now().millisecondsSinceEpoch,
@@ -86,5 +96,40 @@ class AlarmController extends ChangeNotifier {
       print(e);
     }
     notifyListeners();
+  }
+
+  void setAlarm(
+      {required AlarmEntity alarm, required int hour, required int minutes}) {
+    var dateTime = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day, hour, minutes);
+
+    if (dateTime.isBefore(DateTime.now())) {
+      print('ASAAAAAAAAAAAAAAAAAAA');
+      dateTime = DateTime(
+        DateTime.now().year,
+        DateTime.now().month,
+        DateTime.now().add(const Duration(days: 1)).day,
+        hour,
+        minutes,
+      );
+    }
+    update(
+      alarmEntity: alarm.copyWith(dateTime: dateTime.millisecondsSinceEpoch),
+    );
+    Alarm.set(
+      alarmSettings: AlarmSettings(
+        id: alarm.idAlarm,
+        dateTime: dateTime,
+        assetAudioPath: alarm.music,
+        loopAudio: true,
+        vibrate: true,
+        volumeMax: true,
+        fadeDuration: 3.0,
+        notificationTitle: 'alarme',
+        notificationBody: 'Clique para parar',
+        enableNotificationOnKill: true,
+        stopOnNotificationOpen: true,
+      ),
+    );
   }
 }

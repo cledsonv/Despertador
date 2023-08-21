@@ -32,20 +32,8 @@ class _ListContainerAlarmState extends State<ListContainerAlarm> {
         listWeek: widget.ct.listWeek,
         dayWeek: widget.alarm.dayWeek,
         title: widget.alarm.title,
-        onActiveAlarm: (value) {
-          setState(() {
-            widget.ct.update(
-              alarmEntity: widget.alarm.copyWith(active: value),
-            );
-          });
-        },
-        onRemove: () {
-          setState(
-            () {
-              widget.ct.delete(widget.alarm.id!);
-            },
-          );
-        },
+        ct: widget.ct,
+        alarm: widget.alarm,
       ),
     );
   }

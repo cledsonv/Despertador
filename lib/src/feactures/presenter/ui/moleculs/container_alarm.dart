@@ -1,4 +1,6 @@
 import 'package:despertador/src/core/widget/alarm_text.dart';
+import 'package:despertador/src/feactures/domain/entities/alarm_entity.dart';
+import 'package:despertador/src/feactures/presenter/controller/alarm_controller.dart';
 import 'package:neumorphic_ui/neumorphic_ui.dart';
 
 class ContainerAlarm extends StatefulWidget {
@@ -6,17 +8,17 @@ class ContainerAlarm extends StatefulWidget {
   final bool activeAlarm;
   final List<String> dayWeek;
   final String title;
-  final void Function(bool)? onActiveAlarm;
-  final void Function() onRemove;
+  final AlarmController ct;
+  final AlarmEntity alarm;
 
   const ContainerAlarm({
     super.key,
-    required this.onRemove,
     required this.listWeek,
-    required this.onActiveAlarm,
     required this.activeAlarm,
     required this.title,
     required this.dayWeek,
+    required this.ct,
+    required this.alarm,
   });
 
   @override
@@ -24,12 +26,10 @@ class ContainerAlarm extends StatefulWidget {
 }
 
 class _ContainerAlarmState extends State<ContainerAlarm> {
-  TimeOfDay time = const TimeOfDay(hour: 10, minute: 50);
-
   @override
   Widget build(BuildContext context) {
-    final hours = time.hour.toString().padLeft(2, '0');
-    final minutes = time.minute.toString().padLeft(2, '0');
+    // final hours = time.hour.toString().padLeft(2, '0');
+    // final minutes = time.minute.toString().padLeft(2, '0');
     return Neumorphic(
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 16),
@@ -73,15 +73,21 @@ class _ContainerAlarmState extends State<ContainerAlarm> {
                   TimeOfDay? newTime = await showTimePicker(
                     helpText: 'Selecionar a hora',
                     context: context,
-                    initialTime: time,
+                    initialTime: TimeOfDay.now(),
                   );
                   if (newTime == null) return;
                   setState(() {
-                    time = newTime;
+                    print(newTime);
+                    widget.ct.setAlarm(
+                      alarm: widget.alarm,
+                      hour: newTime.hour,
+                      minutes: newTime.minute,
+                    );
                   });
                 },
                 child: AlarmText(
-                  text: '$hours:$minutes',
+                  text:
+                      '${DateTime.fromMillisecondsSinceEpoch(widget.alarm.dateTime).hour.toString().padLeft(2, '0')}:${DateTime.fromMillisecondsSinceEpoch(widget.alarm.dateTime).minute.toString().padLeft(2, '0')}',
                   typography: AlarmTypography.hour,
                 ),
               ),
@@ -104,7 +110,13 @@ class _ContainerAlarmState extends State<ContainerAlarm> {
                 ),
               ),
               GestureDetector(
-                onTap: widget.onRemove,
+                onTap: () {
+                  setState(
+                    () {
+                      widget.ct.delete(widget.alarm.id!);
+                    },
+                  );
+                },
                 child: const Row(
                   children: [
                     Icon(Icons.delete),
@@ -118,7 +130,13 @@ class _ContainerAlarmState extends State<ContainerAlarm> {
           const Spacer(),
           NeumorphicSwitch(
             value: widget.activeAlarm,
-            onChanged: widget.onActiveAlarm,
+            onChanged: (value) {
+              setState(() {
+                widget.ct.update(
+                  alarmEntity: widget.alarm.copyWith(active: value),
+                );
+              });
+            },
             height: 30,
             style: const NeumorphicSwitchStyle(
               activeThumbColor: Colors.white,
